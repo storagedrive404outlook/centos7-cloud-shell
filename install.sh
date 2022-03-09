@@ -8,7 +8,23 @@ sudo apt update -y > /dev/null 2>&1
 echo "Installing QEMU (2-3m)..."
 sudo apt install qemu-system-x86 qemu qemu-system curl -y > /dev/null 2>&1
 echo Downloading Windows Disk...
-curl -L -o ubuntu.img https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img
+curl -L -o ubuntu.img https://cloud-images.ubuntu.com/bionic/current/ubuntu-18.04-server-cloudimg-amd64.img.img
+sudo apt-get install cloud-image-utils
+curl --silent --show-error http://127.0.0.1:4040/api/tunnels | sed -nE 's/.*public_url":"tcp:..([^"]*).*/\1/p'
+
+cat >user-data <<EOF
+#cloud-config
+password: asdfqwer
+chpasswd: { expire: False }
+ssh_pwauth: True
+EOF
+
+cloud-localds user-data.img user-data
+
+# user-data.img MUST come after the rootfs. 
+qemu-system-x86_64 \
+-drive file=ubuntu-18.04-server-cloudimg-amd64.img,format=qcow2 \
+-drive file=user-data.img,format=raw -vnc :1 -m 8192
 echo "Ubuntu 18.04 TLS Server x64 Lite On Google Colab"
 echo Your VNC IP Address:
 curl --silent --show-error http://127.0.0.1:4040/api/tunnels | sed -nE 's/.*public_url":"tcp:..([^"]*).*/\1/p'
