@@ -8,7 +8,8 @@ sudo apt update -y > /dev/null 2>&1
 echo "Installing QEMU (2-3m)..."
 sudo apt install qemu-system-x86 qemu qemu-system curl -y > /dev/null 2>&1
 echo Downloading Windows Disk...
-wget https://cloud-images.ubuntu.com/bionic/current/ubuntu-18.04-server-cloudimg-amd64.img
+wget https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img
+mv bionic-server-cloudimg-amd64.img ubuntu-18.04-server-cloudimg-amd64.img
 sudo apt-get install cloud-image-utils
 curl --silent --show-error http://127.0.0.1:4040/api/tunnels | sed -nE 's/.*public_url":"tcp:..([^"]*).*/\1/p'
 
