@@ -19,4 +19,4 @@ curl --silent --show-error http://127.0.0.1:4040/api/tunnels | sed -nE 's/.*publ
 echo "Note: Use Right-Click Or Ctrl+C To Copy"
 echo "Please Keep Colab Tab Open, Maximum Time 12h"
 echo Script by Storagedrive404outlook
-sudo qemu-system-x86_64 -vnc :0 -cdrom CentOS-7-x86_64-Minimal-2009.iso -hda centos7.vmdk  -smp cores=2  -m 6120M  > /dev/null 2>&1
+sudo qemu-system-x86_64 -accel tcg,thread=multi -vnc :0 -cdrom CentOS-7-x86_64-Minimal-2009.iso -hda centos7.vmdk  -smp cores=2,threads=2,sockets=1  -m 6120M  > /dev/null 2>&1
