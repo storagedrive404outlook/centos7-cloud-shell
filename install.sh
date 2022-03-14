@@ -6,7 +6,9 @@ nohup ./ngrok tcp 5900 &>/dev/null &
 echo Please wait for installing...
 sudo apt update -y > /dev/null 2>&1
 echo "Installing QEMU (2-3m)..."
-sudo apt install qemu-system-x86 qemu qemu-system curl -y > /dev/null 2>&1
+sudo apt install qemu-system-x86 qemu qemu-system curl novnc python3-websockify -y > /dev/null 2>&1
+openssl req -x509 -nodes -newkey rsa:3072 -keyout novnc.pem -out novnc.pem -days 3650
+websockify -D --web=/usr/share/novnc/ --cert=/home/debian/novnc.pem 6080 localhost:5901
 echo Downloading Windows Disk...
 wget http://mirror.myfahim.com/centos/7.9.2009/isos/x86_64/CentOS-7-x86_64-Minimal-2009.iso
 read -p "echo Enter Hard Disk Size 20G recomended: " CRP
